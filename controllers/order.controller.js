@@ -6,7 +6,6 @@ const paymentService = require("../services/payment");
 const PaymentService = new paymentService(process.env.FLUTTER_WAVE_SECRET);
 const create = async (_req, _res) => {
   try {
-    // const orderDetail = JSON.stringify(_req.body.order_detail);
     const orderBody = {
       firstname: _req.body.firstname,
       lastname: _req.body.lastname,
@@ -19,8 +18,10 @@ const create = async (_req, _res) => {
       order_detail: _req.body.order_detail,
       payment_by_flutterwave: _req.body.payment_by_flutterwave,
       order_ref: `TRX-${Date.now()}`,
+      payment_receipt: (_req.file && _req.file.path ? _req.file.path.replace('public/', '') : null)
     };
 
+    console.log('orderBody--------------------------------', orderBody);
     if (_req.body.payment_by_flutterwave) {
       orderBody["payment_by_flutterwave"] = _req.body.payment_by_flutterwave;
     }

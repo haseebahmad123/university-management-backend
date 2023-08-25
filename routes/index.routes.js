@@ -7,8 +7,9 @@ require("./auth.routes")(router);
 require("./users.routes")(router);
 require("./payment.routes")(router);
 require("./order.routes")(router);
-// router.use(auth);
+router.use(auth);
 
+require("./faqs.routes")(router);
 require("./products.routes")(router);
 
 module.exports = router;
