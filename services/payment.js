@@ -13,24 +13,13 @@ class PaymentService {
     };
 
     const requestBody = {
-      tx_ref: `TRX-${Date.now()}`,
-      amount: 10,
+      tx_ref: payload.tx_ref,
+      amount: payload.total_amount,
       currency: "USD",
       redirect_url: "https://webhook.site/4fa69fbe-32c4-46d2-a11c-535c5b20339d",
-      customer: {
-        email: "user@gmail.com",
-        phonenumber: "080****4528",
-        name: "Yemi Desola",
-      },
-      customizations: {
-        title: "Pied Piper Payments",
-        logo: "http://www.piedpiper.com/app/themes/joystick-v27/images/logo.png",
-      },
+      customer: payload.customer,
+      customizations: payload.customizations,
     };
-
-    console.log("url =>", url);
-    console.log("headers =>", headers);
-    console.log("requestBody =>", requestBody);
 
     try {
       const response = await axios.post(url, requestBody, { headers });

@@ -1,10 +1,9 @@
 const paymentService = require("../services/payment");
 const PaymentService = new paymentService(process.env.FLUTTER_WAVE_SECRET);
 
-const createPaymentLink = async (_req, _res) => {
-  console.log("createPaymentLink controller hit!");
+const createPaymentLink = async (_req, _res, payload) => {
   try {
-    const res = await PaymentService.createPaymentLink();
+    const res = await PaymentService.createPaymentLink(payload);
 
     return _res.status(200).send(res);
   } catch (e) {
