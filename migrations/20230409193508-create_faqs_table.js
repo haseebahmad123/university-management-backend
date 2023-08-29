@@ -10,7 +10,6 @@ module.exports = {
         question: {
           allowNull: false,
           type: Sequelize.STRING,
-          unique: true,
         },
         answer: {
           allowNull: false,

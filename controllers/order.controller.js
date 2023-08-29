@@ -21,7 +21,6 @@ const create = async (_req, _res) => {
       payment_receipt: (_req.file && _req.file.path ? _req.file.path.replace('public/', '') : null)
     };
 
-    console.log('orderBody--------------------------------', orderBody);
     if (_req.body.payment_by_flutterwave) {
       orderBody["payment_by_flutterwave"] = _req.body.payment_by_flutterwave;
     }
@@ -71,6 +70,22 @@ const generateExcel = async (_req, _res) => {
   return await Controller.generateExcel(_req, _res);
 }
 
+const update = async (_req, _res) => {
+  const orderBody = {
+    firstname: _req.body.firstname,
+    lastname: _req.body.lastname,
+    email: _req.body.email,
+    phone_number: _req.body.phone_number,
+    address: _req.body.address,
+    destination_country: _req.body.destination_country,
+    total_amount: _req.body.total_amount,
+    order_note: _req.body.order_note,
+    order_detail: _req.body.order_detail,
+    payment_by_flutterwave: _req.body.payment_by_flutterwave,
+  };
+  return Controller.update(_req, _res, orderBody);
+};
+
 const getOne = async (_req, _res) => Controller.customGetOne(_req, _res);
 
 module.exports = {
@@ -79,4 +94,5 @@ module.exports = {
   getOne,
   generatePDF,
   generateExcel,
+  update,
 };

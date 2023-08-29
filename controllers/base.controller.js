@@ -82,6 +82,7 @@ class BaseController {
   
         return _res.status(201).json({ record, ...extra });
       } catch (err) {
+        console.log('in base', err);
         return _res.status(422).json({
           errors: [
             {
@@ -91,30 +92,6 @@ class BaseController {
         });
       }
     }
-
-  async createOrder(_req, _res, body, cb = null) {
-    try {
-      let record = await this.crudService.create(body);
-    //   console.log('record--------------------------------', record);
-      let extra = {};
-      if (cb) {
-        record = await cb(record);
-        if (record._extraValues) {
-          extra = record._extraValues;
-        }
-      }
-
-      return { record, ...extra };
-    } catch (err) {
-      return _res.status(422).json({
-        errors: [
-          {
-            msg: err.message,
-          },
-        ],
-      });
-    }
-  }
 
   async createOrder(_req, _res, body, cb = null) {
     try {

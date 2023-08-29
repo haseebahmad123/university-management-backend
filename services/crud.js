@@ -82,6 +82,7 @@ class CrudService {
     }
     const record = await this.model.findByPk(id, { ..._options, include });
 
+    console.log('record', record);
     if (!record) {
       return null;
     }

@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-    const Faqs = sequelize.define(
-      "Faqs",
+    const Faq = sequelize.define(
+      "Faq",
       {
         id: {
           allowNull: false,
@@ -27,6 +27,6 @@ module.exports = (sequelize, DataTypes) => {
       }
     );
   
-    return Faqs;
+    return Faq;
   };
   
