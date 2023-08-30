@@ -16,6 +16,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.TEXT,
         allowNull: false,
       },
+      product_status: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+        defaultValue: "user",
+      },
       price: {
         type: DataTypes.BIGINT,
         allowNull: false,

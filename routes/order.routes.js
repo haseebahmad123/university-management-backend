@@ -1,12 +1,37 @@
-const { body } = require("express-validator");
+const { body, query } = require("express-validator");
 const validationMiddleware = require("../middlewares/validations.middleware");
 const Controller = require("../controllers/order.controller");
 const auth = require("../middlewares/auth.middleware");
 
 module.exports = (router) => {
   router.get("/orders", Controller.getAll);
-  router.get("/orders/generate-pdf", auth, Controller.generatePDF);
-  router.get("/orders/generate-excel", auth, Controller.generateExcel);
+  router.get(
+    "/orders/generate-pdf",
+    [
+      query("startDate").not().isEmpty().withMessage("Start Date is required"),
+      query("endDate").not().isEmpty().withMessage("End Date is required"),
+    ],
+    validationMiddleware,
+    auth, 
+    Controller.generatePDF);
+  router.get(
+    "/orders/generate-excel",
+    [
+      query("startDate").not().isEmpty().withMessage("Start Date is required"),
+      query("endDate").not().isEmpty().withMessage("End Date is required"),
+    ],
+    validationMiddleware,
+    auth, 
+    Controller.generateExcel);
+  router.get(
+    "/orders/generate-csv",
+    [
+      query("startDate").not().isEmpty().withMessage("Start Date is required"),
+      query("endDate").not().isEmpty().withMessage("End Date is required"),
+    ],
+    validationMiddleware,
+    auth,
+    Controller.generateCSV);
   router.get("/orders/:id", Controller.getOne);
   router.put(
     "/orders/:id",

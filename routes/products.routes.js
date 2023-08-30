@@ -1,6 +1,7 @@
 const { body } = require("express-validator");
 
 const validationMiddleware = require("../middlewares/validations.middleware");
+const auth = require("../middlewares/auth.middleware");
 const upload = require("../middlewares/upload.middleware");
 const Controller = require("../controllers/products.controller");
 
@@ -22,6 +23,7 @@ module.exports = (router) => {
       body("price").not().isEmpty().withMessage("Price is required"),
     ],
     validationMiddleware,
+    auth,
     Controller.create
   );
   router.put(
@@ -39,9 +41,8 @@ module.exports = (router) => {
       body("price").not().isEmpty().withMessage("Price is required"),
     ],
     validationMiddleware,
+    auth,
     Controller.update
   );
-  router.delete("/products/:id", Controller.destroy);
-  router.patch("/products/:id/restore", Controller.restore);
-  router.delete("/products/:id/force", Controller.forceDelete);
+  router.delete("/products/:id", auth, Controller.destroy);
 };

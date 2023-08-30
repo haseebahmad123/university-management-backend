@@ -5,6 +5,19 @@ class CrudService {
     this.model = model;
   }
 
+  async getFilteredOrders(query) {
+    const startDate = new Date(query.startDate);
+    const endDate = new Date(query.endDate);
+    const filteredReports = await this.model.findAll({
+      where: {
+        created_at: {
+          [Op.gte]: startDate,
+          [Op.lte]: new Date(endDate.getTime() + 24 * 60 * 60 * 1000) // Add 1 day to include the entire end date
+        }
+      }
+    });
+    return filteredReports;
+  }
   async getAll(query) {
     const limit = query.perPage ? parseInt(query.perPage) : 10;
     const page = query.page ? parseInt(query.page) : 1;

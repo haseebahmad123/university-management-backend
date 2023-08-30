@@ -1,6 +1,7 @@
 const CrudService = require("../services/crud");
 const PdfGenerator = require("../services/generatePDF");
 const ExcelGenerator = require("../services/generateExcel");
+const CSVGenerator = require("../services/generateCSV");
 
 class BaseController {
   constructor(model, modelName) {
@@ -10,28 +11,50 @@ class BaseController {
 
   async generatePDF (_req, _res) {
     const data = [];
-    const records = await this.crudService.getAll(_req.query);
-    for (const record of records.data) {
+    const records = await this.crudService.getFilteredOrders(_req.query);
+    if(records.length > 0) {
+      for (const record of records) {
         record.dataValues.order_detail = JSON.parse(
           record.dataValues.order_detail
         );
         data.push(record.dataValues);
       }
-    const response = await PdfGenerator.generatePDF(data)
-    return _res.json({ response });
+      const response = await PdfGenerator.generatePDF(data)
+      return _res.json({ response });
+    }
+    return _res.json("No Order Exist in this provided date Range");
   }
 
   async generateExcel (_req, _res) {
     const data = [];
-    const records = await this.crudService.getAll(_req.query);
-    for (const record of records.data) {
+    const records = await this.crudService.getFilteredOrders(_req.query);
+    if(records.length > 0) {
+      for (const record of records) {
         record.dataValues.order_detail = JSON.parse(
           record.dataValues.order_detail
         );
         data.push(record.dataValues);
       }
-    const response = await ExcelGenerator.generateExcel(data)
-    return _res.json({ response });
+      const response = await ExcelGenerator.generateExcel(data)
+      return _res.json({ response });
+    }
+    return _res.json("No Order Exist in this provided date Range");
+  }
+
+  async generateCSV (_req, _res) {
+    const data = [];
+    const records = await this.crudService.getFilteredOrders(_req.query);
+    if(records.length > 0) {
+      for (const record of records) {
+        record.dataValues.order_detail = JSON.parse(
+          record.dataValues.order_detail
+        );
+        data.push(record.dataValues);
+      }
+      const response = await CSVGenerator.generateCSV(data)
+      return _res.json({ response });
+    }
+    return _res.json("No Order Exist in this provided date Range");
   }
 
   async customGetAll(_req, _res) {

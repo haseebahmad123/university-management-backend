@@ -15,6 +15,11 @@ module.exports = {
         allowNull: false,
         type: Sequelize.TEXT,
       },
+      product_status: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+        defaultValue: "user",
+      },
       price: {
         allowNull: false,
         type: Sequelize.BIGINT,

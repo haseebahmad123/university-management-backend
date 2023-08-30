@@ -70,6 +70,10 @@ const generateExcel = async (_req, _res) => {
   return await Controller.generateExcel(_req, _res);
 }
 
+const generateCSV = async (_req, _res) => {
+  return await Controller.generateCSV(_req, _res);
+}
+
 const update = async (_req, _res) => {
   const orderBody = {
     firstname: _req.body.firstname,
@@ -95,4 +99,5 @@ module.exports = {
   generatePDF,
   generateExcel,
   update,
+  generateCSV,
 };

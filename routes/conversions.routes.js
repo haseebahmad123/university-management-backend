@@ -1,7 +1,7 @@
 const { body } = require("express-validator");
 
 const validationMiddleware = require("../middlewares/validations.middleware");
-const upload = require("../middlewares/upload.middleware");
+const auth = require("../middlewares/auth.middleware");
 const Controller = require("../controllers/conversion.controller");
 
 module.exports = (router) => {
@@ -26,6 +26,7 @@ module.exports = (router) => {
         .withMessage("conversion_rate is required"),
     ],
     validationMiddleware,
+    auth,
     Controller.create
   );
   router.put(
@@ -37,6 +38,7 @@ module.exports = (router) => {
         .withMessage("conversion_rate is required"),
     ],
     validationMiddleware,
+    auth,
     Controller.update
   );
   router.delete("/conversions/:id", Controller.destroy);

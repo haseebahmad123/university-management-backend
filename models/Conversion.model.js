@@ -12,10 +12,12 @@ module.exports = (sequelize, DataTypes) => {
       source_currency: {
         allowNull: false,
         type: DataTypes.STRING,
+        unique: true,
       },
       target_currency: {
         allowNull: false,
         type: DataTypes.STRING,
+        unique: true,
       },
       conversion_rate: {
         allowNull: false,
