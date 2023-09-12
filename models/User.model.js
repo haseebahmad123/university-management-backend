@@ -13,10 +13,20 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       unique: true
     },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      unique: false
+    },
     mobile: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
       unique: true
+    },
+    role: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      unique: false
     },
     password: {
       type: DataTypes.STRING,
@@ -38,6 +48,21 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: 'updated_at',
     deletedAt: 'deleted_at',
   });
+
+  User.associate = (models) => {
+    // Define associations here
+    User.hasMany(models.Assignment, {
+      foreignKey: 'instructor_id',
+      as: 'assignemnt',
+    });
+
+    User.hasMany(models.student_assignment, {
+      foreignKey: 'student_id',
+      as: 'student_assignemnt',
+    });
+
+  }
+  
 
   return User;
 };

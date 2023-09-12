@@ -12,13 +12,18 @@ module.exports = {
         type: Sequelize.STRING,
         unique: true,
       },
+      name: {
+        allowNull: true,
+        type: Sequelize.STRING,
+        unique: false,
+      },
       role: {
         allowNull: false,
         type: Sequelize.STRING,
-        defaultValue: "user",
+        defaultValue: "admin",
       },
       mobile: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.STRING,
         unique: true,
       },

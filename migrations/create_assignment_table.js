@@ -1,21 +1,36 @@
 module.exports = {
     up: async (queryInterface, Sequelize) => {
-      await queryInterface.createTable("faqs", {
+      await queryInterface.createTable("assignments", {
         id: {
           allowNull: false,
           autoIncrement: true,
           primaryKey: true,
           type: Sequelize.BIGINT,
         },
-        question: {
+        name: {
           allowNull: false,
           type: Sequelize.STRING,
         },
-        answer: {
-          allowNull: false,
+        description: {
+          allowNull: true,
           type: Sequelize.TEXT,
-          defaultValue: "user",
         },
+        due_date: {
+          allowNull: false,
+          type: Sequelize.DATE,
+          validate: {
+            isDate: true,
+          },
+        },
+        instructor_id: {
+          allowNull: false,
+          type: Sequelize.BIGINT,
+          references: {
+            model: "users",
+            key: "id",
+          },
+        },
+
         created_at: {
           allowNull: false,
           type: Sequelize.DATE,
@@ -37,7 +52,7 @@ module.exports = {
     },
   
     down: async (queryInterface) => {
-      await queryInterface.dropTable("faqs");
+      await queryInterface.dropTable("assignments");
     },
   };
   

@@ -1,25 +1,40 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("conversions", {
+    await queryInterface.createTable("student_assignments", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.BIGINT,
       },
-      source_currency: {
+      submission_status: {
         allowNull: false,
         type: Sequelize.STRING,
-        unique: true,
+        defaultValue: "pending",
       },
-      target_currency: {
+      instructor_id: {
         allowNull: false,
-        type: Sequelize.STRING,
-        unique: true,
+        type: Sequelize.BIGINT,
+        references: {
+          model: "users",
+          key: "id",
+        },
       },
-      conversion_rate: {
+      student_id: {
         allowNull: false,
-        type: Sequelize.DECIMAL(10, 4),
+        type: Sequelize.BIGINT,
+        references: {
+          model: "users",
+          key: "id",
+        },
+      },
+      assignment_id: {
+        allowNull: false,
+        type: Sequelize.BIGINT,
+        references: {
+          model: "assignments",
+          key: "id",
+        },
       },
       created_at: {
         allowNull: false,
@@ -42,6 +57,6 @@ module.exports = {
   },
 
   down: async (queryInterface) => {
-    await queryInterface.dropTable("conversions");
+    await queryInterface.dropTable("student_assignments");
   },
 };

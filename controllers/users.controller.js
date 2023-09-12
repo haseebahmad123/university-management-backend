@@ -83,6 +83,28 @@ const register = async(_req, _res) => {
     });
 };
 
+const createUser = async(_req, _res) => {
+    return Controller.create(_req, _res, {
+        name: _req.body.name, 
+        email: _req.body.email,
+        mobile: _req.body.mobile,
+        role: _req.body.role,
+        password: _req.body.password 
+    }, async (user) => {
+        if(user) {
+            const token = jwt.sign(
+                { userId: user.id },
+                process.env.JWT_SECRET,
+                { expiresIn: '24h' }
+            );
+    
+            user._extraValues = {token};
+        }
+
+        return user;
+    });
+};
+
 module.exports = {
     getAll,
     getOne,
@@ -91,5 +113,6 @@ module.exports = {
     destroy,
     restore,
     forceDelete,
-    register
+    register,
+    createUser
 };
