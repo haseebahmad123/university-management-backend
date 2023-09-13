@@ -19,6 +19,14 @@ module.exports = (sequelize, DataTypes) => {
           key: "id",
         },
       },
+      submission_date: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        validate: {
+          isDate: true,
+        },
+        defaultValue: null
+      },
       instructor_id: {
         allowNull: false,
         type: DataTypes.BIGINT,

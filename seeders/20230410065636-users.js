@@ -4,13 +4,29 @@ module.exports = {
   up: async (queryInterface) => {
     var usersData = [];
 
-    const password = await bcrypt.hash("password", 10);
+    const password = await bcrypt.hash("admin123", 10);
 
     usersData = [
       {
         email: "admin@brands4cheap.com",
         mobile: "111111111",
         role: "admin",
+        password,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        email: "fahad@gmail.com",
+        mobile: "111111111",
+        role: "teacher",
+        password,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        email: "nayab@gmail.com",
+        mobile: "111111111",
+        role: "student",
         password,
         created_at: new Date(),
         updated_at: new Date(),

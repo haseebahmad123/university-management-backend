@@ -14,7 +14,7 @@ module.exports = (router) => {
         .custom(async (name) => {
             const record = await Assignment.findOne({ where: { name }, paranoid: false });
             if (record) {
-                throw new Error('assignment already exists');
+                throw new Error('assignment already exists');   
             }
             return true;
         }),
@@ -28,5 +28,20 @@ module.exports = (router) => {
 
     router.put('/assignment/update', [
     ], validationMiddleware, authMiddleware, Controller.updateAssignment);
+
+    router.get('/assignment/getById', [
+    ], validationMiddleware, authMiddleware, Controller.getOne);
+
+    router.put('/assignment/submit', [
+        body('submission_date').not().isEmpty().withMessage('submission_date is required'),
+    ], validationMiddleware, authMiddleware, Controller.submitAssignment);
+
+    router.get('/assignment/submissiondetails', [
+    ], validationMiddleware, authMiddleware, Controller.GetSubmissionDetailByInstructorId);
+
+    router.get('/assignment/getassignmentbyid', [
+    ], validationMiddleware, authMiddleware, Controller.GetAssignemntById);
+
+
 }
 

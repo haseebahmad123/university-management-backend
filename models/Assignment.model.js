@@ -17,18 +17,6 @@ module.exports = (sequelize, DataTypes) => {
       due_date: {
         type: DataTypes.DATE,
         allowNull: false,
-        validate: {
-          isDate: true,
-          isOneWeekInFuture(value) {
-            const now = new Date();
-            const oneWeekFromNow = new Date();
-            oneWeekFromNow.setDate(now.getDate() + 7);
-      
-            if (value <= oneWeekFromNow) {
-              throw new Error('Due date must be at least one week in the future.');
-            }
-          },
-        },
       },
       instructor_id: {
         type: DataTypes.BIGINT,

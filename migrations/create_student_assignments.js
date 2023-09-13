@@ -28,6 +28,14 @@ module.exports = {
           key: "id",
         },
       },
+      submission_date: {
+        type: Sequelize.DATE,
+        allowNull: true,
+        validate: {
+          isDate: true,
+        },
+      defaultValue: null
+      },
       assignment_id: {
         allowNull: false,
         type: Sequelize.BIGINT,

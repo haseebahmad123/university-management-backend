@@ -30,6 +30,9 @@ module.exports = (router) => {
         body('password').not().isEmpty().withMessage('Password is required'),
     ], validationMiddleware, authMiddleware, isAdmin, Controller.createUser);
 
+    router.get('/users/getAll', [
+    ], validationMiddleware, authMiddleware, Controller.getStudents);
+
 
 //     router.post('/users/register', [
 //         body('email').not().isEmpty().withMessage('Email is required').bail()

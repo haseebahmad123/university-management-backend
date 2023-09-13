@@ -11,7 +11,6 @@ module.exports = (router) => {
     //createUser
     router.post('/studentassignment/assign', [
         body('assignment_id').not().isEmpty().withMessage('assignment_id is required').bail(),        
-        body('student_ids').not().isEmpty().withMessage('student_ids are required')
     ], validationMiddleware, authMiddleware, Controller.createStudentAssignment);
 
     router.get('/studentassignment/getAll', [

@@ -1,9 +1,9 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
-const { User } = require('../models');
+const { User } = require("../models");
 
-const BaseController = require('./base.controller');
-const Controller = new BaseController(User, 'User');
+const BaseController = require("./base.controller");
+const Controller = new BaseController(User, "User");
 
 function filterNonEmptyValues(obj) {
   const filteredObj = {};
@@ -16,103 +16,126 @@ function filterNonEmptyValues(obj) {
   return filteredObj;
 }
 
+const getAll = async (_req, _res) => Controller.getAll(_req, _res);
 
-const getAll = async(_req, _res) => Controller.getAll(_req, _res);
+const getOne = async (_req, _res) => Controller.getOne(_req, _res);
 
-const getOne = async(_req, _res) => Controller.getOne(_req, _res);
+const create = async (_req, _res) => {
+  return Controller.create(
+    _req,
+    _res,
+    {
+      email: _req.body.email,
+      mobile: _req.body.mobile,
+      password: _req.body.password,
+    },
+    async (user) => {
+      if (_req.body.categories && Array.isArray(_req.body.categories)) {
+        await user.setCategories(_req.body.categories);
+      }
+      if (_req.body.vendors && Array.isArray(_req.body.vendors)) {
+        await user.setVendors(_req.body.vendors);
+      }
 
-const create = async(_req, _res) => {
-    return Controller.create(_req, _res, { 
-        email: _req.body.email,
-        mobile: _req.body.mobile,
-        password: _req.body.password 
-    }, async (user) => {
-        if(_req.body.categories && Array.isArray(_req.body.categories)) {
-            await user.setCategories(_req.body.categories);
-        }
-        if(_req.body.vendors && Array.isArray(_req.body.vendors)) {
-            await user.setVendors(_req.body.vendors);
-        }
-
-        return user.reload();
-    });
+      return user.reload();
+    }
+  );
 };
 
-const update = async(_req, _res) => {
-    const input = filterNonEmptyValues({ 
-        email: _req.body.email,
-        mobile: _req.body.mobile,
-        password: _req.body.password 
-    });
+const update = async (_req, _res) => {
+  const input = filterNonEmptyValues({
+    email: _req.body.email,
+    mobile: _req.body.mobile,
+    password: _req.body.password,
+  });
 
-    return Controller.update(_req, _res, input , async (user) => {
-        if(_req.body.categories && Array.isArray(_req.body.categories)) {
-            await user.setCategories(_req.body.categories);
-        }
-        if(_req.body.vendors && Array.isArray(_req.body.vendors)) {
-            await user.setVendors(_req.body.vendors);
-        }
+  return Controller.update(_req, _res, input, async (user) => {
+    if (_req.body.categories && Array.isArray(_req.body.categories)) {
+      await user.setCategories(_req.body.categories);
+    }
+    if (_req.body.vendors && Array.isArray(_req.body.vendors)) {
+      await user.setVendors(_req.body.vendors);
+    }
 
-        return user.reload();
-    });
+    return user.reload();
+  });
 };
 
-const destroy = async(_req, _res) => Controller.destroy(_req, _res);
+const destroy = async (_req, _res) => Controller.destroy(_req, _res);
 
-const restore = async(_req, _res) => Controller.restore(_req, _res);
+const restore = async (_req, _res) => Controller.restore(_req, _res);
 
-const forceDelete = async(_req, _res) => Controller.forceDelete(_req, _res);
+const forceDelete = async (_req, _res) => Controller.forceDelete(_req, _res);
 
-const register = async(_req, _res) => {
-    return Controller.create(_req, _res, { 
-        email: _req.body.email,
-        mobile: _req.body.mobile,
-        password: _req.body.password 
-    }, async (user) => {
-        if(user) {
-            const token = jwt.sign(
-                { userId: user.id },
-                process.env.JWT_SECRET,
-                { expiresIn: '24h' }
-            );
-    
-            user._extraValues = {token};
-        }
+const register = async (_req, _res) => {
+  return Controller.create(
+    _req,
+    _res,
+    {
+      email: _req.body.email,
+      mobile: _req.body.mobile,
+      password: _req.body.password,
+    },
+    async (user) => {
+      if (user) {
+        const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+          expiresIn: "24h",
+        });
 
-        return user;
-    });
+        user._extraValues = { token };
+      }
+
+      return user;
+    }
+  );
 };
 
-const createUser = async(_req, _res) => {
-    return Controller.create(_req, _res, {
-        name: _req.body.name, 
-        email: _req.body.email,
-        mobile: _req.body.mobile,
-        role: _req.body.role,
-        password: _req.body.password 
-    }, async (user) => {
-        if(user) {
-            const token = jwt.sign(
-                { userId: user.id },
-                process.env.JWT_SECRET,
-                { expiresIn: '24h' }
-            );
-    
-            user._extraValues = {token};
-        }
+const createUser = async (_req, _res) => {
+  return Controller.create(
+    _req,
+    _res,
+    {
+      name: _req.body.name,
+      email: _req.body.email,
+      mobile: _req.body.mobile,
+      role: _req.body.role,
+      password: _req.body.password,
+    },
+    async (user) => {
+      if (user) {
+        const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+          expiresIn: "24h",
+        });
 
-        return user;
+        user._extraValues = { token };
+      }
+
+      return user;
+    }
+  );
+};
+
+const getStudents = async (_req, _res) => {
+  User.findAll({
+    where: { role: "student" },
+  })
+    .then((students) => {
+      _res.status(200).json({ data: students });
+    })
+    .catch((error) => {
+      console.error("Error retrieving students and assignments:", error);
     });
 };
 
 module.exports = {
-    getAll,
-    getOne,
-    create,
-    update,
-    destroy,
-    restore,
-    forceDelete,
-    register,
-    createUser
+  getAll,
+  getOne,
+  create,
+  update,
+  destroy,
+  restore,
+  forceDelete,
+  register,
+  createUser,
+  getStudents,
 };

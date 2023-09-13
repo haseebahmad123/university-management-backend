@@ -5,7 +5,6 @@ const authMiddleware = async (_req, _res, _next) => {
   try {
     const token = (_req.headers.authorization || "").split(" ")[1];
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    console.log("decodedToken => ", decodedToken);
 
     const userId = decodedToken.userId;
 
@@ -21,7 +20,7 @@ const authMiddleware = async (_req, _res, _next) => {
 
     throw new Error("Invalid user ID");
   } catch (error) {
-    _res.status(401).json({ error: "Unauthorized" });
+    _res.status(401).json({ statusCode:401, error: "Unauthorized" });
   }
 };
 
@@ -43,7 +42,7 @@ const isAdmin = async (_req, _res, _next) => {
     }
     throw new Error("Invalid user ID");
   } catch (error) {
-    _res.status(401).json({ error: "Unauthorized" });
+    _res.status(401).json({ statusCode:401, error: "Unauthorized" });
   }
 };
 

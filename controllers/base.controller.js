@@ -13,7 +13,7 @@ class BaseController {
     }
 
     async getOne(_req, _res) {
-        const record = await this.crudService.getById(_req.params.id);
+        const record = await this.crudService.getById(_req.query.id);
 
         if (!record) {
             return _res.status(404).json({ error: `${this.modelName} not found` });
@@ -73,7 +73,8 @@ class BaseController {
 
   async update(_req, _res, body, cb = null) {
     try {
-      let record = await this.crudService.update(_req.params.id, body);
+      let record = await this.crudService.update(_req.query.id, body);
+  
      
       if (!record) {
         return _res.status(404).json({ error: `${this.modelName} not found` });
